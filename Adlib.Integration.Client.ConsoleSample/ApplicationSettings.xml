@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!--
+  Used as a variable for the rest of these settings to replace ${ADLIB_JOB_MANAGEMENT_SERVICE_MACHINE}.
+  This is the machine name where Adlib Web Services reside.
+  -->
+  <AdlibJobManagementServiceMachineName>The machine name where Adlib Web Services reside</AdlibJobManagementServiceMachineName>
+  <!--Adlib Job Management Service URL to WSDL.  Default is not SSL (but can be changed here if SSL is configured on server)-->
+  <AdlibServiceLocation>Adlib Job Management Service URL</AdlibServiceLocation>
+  <!--
+  Must be a valid GUID format, and unique per machine.
+  Format: 00000000-0000-0000-0000-000000000000 (with hex digits).
+  Here is an online GUID generator (use at own risk): http://www.guidgenerator.com/online-guid-generator.aspx
+  Within Visual Studio, use Tools -> Create GUID
+  -->
+  <MachineId>Machine GUID</MachineId>
+  <!--Whether or not to stream files to/from Adlib (vs. UNC share file referencing)-->
+  <StreamFiles>true</StreamFiles>
+  <!--Whether or not to merge all files that are in the input directory as a single job-->
+  <MergeInputDirectoryFiles>false</MergeInputDirectoryFiles>
+  <!--Input Folder containing some input files to process.  Needs to be a UNC share if StreamFiles=false-->
+  <InputDirectory>.\Input</InputDirectory>
+  <!--
+  Output Folder (destination).  Needs to be a UNC share if StreamFiles=false.
+  A sub-folder of Job ID will be appended for each job
+  -->
+  <OutputDirectory>.\Output</OutputDirectory>  
+  <!--Optional: Sample list of metadata to send with each job-->
+  <JobMetadataList>
+    <Metadata>
+      <Name>operation</Name>
+      <Value>ocr</Value>
+    </Metadata>
+    <Metadata>
+      <Name>output</Name>
+      <Value>txt|pdf</Value>
+    </Metadata>
+  </JobMetadataList>
+  <!--Whether or not to use Job Ticket (this will ignore input/output files as well as streaming)-->
+  <UseJobTicket>false</UseJobTicket>
+  <!--
+  Job Ticket file location if UseJobTicket is true (can be absolute or relative).
+  Note: The ${ADLIB_JOB_MANAGEMENT_SERVICE_MACHINE} is replaced in this file as well if it is present
+  Knowledge of XML Job Tickets is required (Guide: https://help.adlibsoftware.com/support/documentation/adlibpdfoem/6.0/en/AdlibPDFXMLJobTicketGuide.pdf)
+  -->
+  <JobTicketFilePath>SampleJobTicket.xml</JobTicketFilePath>
+  <!--
+  The time to wait between checking for job completion
+  -->
+  <GetJobStatusSleepIntervalSeconds>1.0</GetJobStatusSleepIntervalSeconds>
+  <!--
+  The time to wait for submitted jobs to finish.
+  This timer will only start after the amount submitted in batch are complete.
+  It resets for every newly completed job
+  -->
+  <IdleTimeoutSeconds>60</IdleTimeoutSeconds>
+  <!--
+  If true, all files in input folder will be sent as their own job and retrieved batch-like (based on Respository Id)
+  If false, all files in input folder will be sent as their own job and retrieved by its job id.
+  -->
+  <BatchProcess>false</BatchProcess>
+
+  <!--
+  If true, a problem submission zip file will be created in the OutputDirectory for each job processed.
+  This feature is only supported in Adlib PDF 5.0 or higher.
+  -->
+  <CreateProblemSubmission>false</CreateProblemSubmission>
+
+  <!--
+  Only supported on Adlib PDF OEM 5.2 or higher. Allows you to add groups for a specific engine. You can then specify the group name  
+  when submitting a job to ensure that only that engine will pick up the job. To enable this option set to true and set the EngineMachineId 
+  (See note below for EngineMachineId). 
+  -->
+  <UseEngineGroup>false</UseEngineGroup>
+  <!--
+  If set to false then the engine will also pick up jobs that have no group name set. If set to true then the engine will
+  only pickup jobs that have one of the group names that they are configured to accept. By default this value is set to false when
+  an engine is installed.
+  -->
+  <UseExclusiveGroupNameFiltering>false</UseExclusiveGroupNameFiltering>
+  <!-- 
+  The machine id of the engine for which you want to add groups. You can get this from Adlib.config on the machine where
+  the engine is installed. The default location of Adlib.config is C:\Program Files\Adlib.
+  -->
+  <EngineMachineId>00000000-0000-0000-0000-000000000000</EngineMachineId>
+  <!--
+  The name of the group to be added to the engine. 
+  -->
+  <GroupName>Group1</GroupName>
+  
+  <!--
+  Component Registration Settings (only attempted if Initialization fails, i.e. if registration has not occurred).
+  Developer Note: It is highly recommended that this be moved out to a separate one-time process (like during an installation),
+  rather than in the actual runtime application because of the fact that a console admin username/password is required to register,
+  and that username must have admin privileges.
+  -->
+  <!--
+  Name of the machine as it will appear in the Adlib Management Console (if left blank, this computer name will be used).
+  Set this to a virtual name if you do not want to use an actual machine name
+  -->
+  <ComponentMachineName>Global</ComponentMachineName>
+  <!--
+  Name of the install path as it will appear in the Adlib Management Console (if left blank, this running instance path will be used)
+  This can be any unique value per machine name (does not need to be a real path)
+  -->
+  <ComponentInstallPath>Client</ComponentInstallPath>
+  <!--Name of component as it will appear in the Adlib Management Console-->
+  <ComponentFriendlyName>Client</ComponentFriendlyName>
+  <!--User name to login to Adlib Management Console (must have admin privileges to register)-->
+  <ConsoleUsername>sysadmin</ConsoleUsername>
+  <!--In production, password should not be stored in a file unencrypted.  If left blank, sample application will prompt for password input the first time-->
+  <ConsolePassword></ConsolePassword>
+</ApplicationSettings>
